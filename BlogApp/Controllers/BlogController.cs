@@ -12,9 +12,10 @@ namespace BlogApp.Controllers
             var values = bm.TGetBlogsWithCategory();
             return View(values);
         }
-        public IActionResult BlogDetails()
+        public IActionResult BlogDetails(int id)
         {
-            return View();
+            var values = bm.TListByID(id); 
+            return View(values);
         }
     }
 }
