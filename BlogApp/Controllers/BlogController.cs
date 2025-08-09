@@ -14,6 +14,7 @@ namespace BlogApp.Controllers
         }
         public IActionResult BlogDetails(int id)
         {
+            ViewBag.i = id;
             var values = bm.TListByID(id); 
             return View(values);
         }
