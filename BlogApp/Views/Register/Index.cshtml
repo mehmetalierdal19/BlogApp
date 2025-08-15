@@ -14,7 +14,7 @@
         <h3 class="tittle">Register Now</h3>
         <div class="inner-sec">
             <div class="login p-5 bg-light mx-auto mw-100">
-                @using (Html.BeginForm("Index", "Register", FormMethod.Post))
+                @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { id = "registerForm" }))
                 {
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
@@ -51,6 +51,25 @@
     <script>
         $('#btnSubmit').click(function(){
             Swal.fire("By accessing and using this website, you agree to the following terms: All content is provided for informational purposes only. You may not copy, reproduce, or redistribute any part of this website without permission. We are not responsible for any losses or damages caused by the use of this site. We reserve the right to modify or remove any content at any time without notice. Your continued use of the site indicates your acceptance of these terms. If you do not agree with any part of these terms, please do not use the site.");
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("registerForm");
+
+            form.addEventListener("submit", function (e) {
+                const password1 = document.getElementById("password1").value;
+                const password2 = document.getElementById("password2").value;
+
+                if (password1 !== password2) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Passwords do not match!'
+                    });
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 </section>

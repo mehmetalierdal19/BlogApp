@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
+using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace BlogApp.Controllers
 {
@@ -11,9 +13,18 @@ namespace BlogApp.Controllers
         {
             return View();
         }
+        [HttpGet]
         public PartialViewResult PartialAddComment()
         {
             return PartialView();
+        }
+        [HttpPost]
+        public JsonResult PartialAddComment(Comment p)
+        {
+            p.CreateDate = DateTime.Now;
+            p.Status = true;
+            cm.TAdd(p);
+            return Json(new {success = true, message = "Comment successfully submitted!" });
         }
         public PartialViewResult PartialCommentListByBlog(int id)
         {

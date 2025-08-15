@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
-    public interface IBlogServıce : IGenericService<Blog>
+    public interface INewsLettersService : IGenericService<NewsLetter>
     {
-        List<Blog> TGetBlogsWithCategory();
-        List<Blog> TGetBlogListByWriter(int id);
     }
 }

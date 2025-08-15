@@ -1,0 +1,41 @@
+﻿
+<div class="tech-btm">
+    <h4>Sign up to our newsletter</h4>
+    <p>Pellentesque dui, non felis. Maecenas male </p>
+    <form method="post" id="newsletterForm">
+        <input type="email" placeholder="Email" required="" name="Mail">
+        <input type="submit" value="Subscribe">
+    </form>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+        $('#newsletterForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var formData = {
+                Mail: $('input[name="Mail"]').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/NewsLetter/SubscribeMail',  // Controller ismi büyük-küçük harfe duyarlıdır!
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire("Good job!", response.message, "success");
+                        $('#newsletterForm')[0].reset();
+                    } else {
+                        Swal.fire("Oops...", "Something went wrong!", "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Oops...", "Server error occurred!", "error");
+                }
+            });
+        });
+    });
+</script>
