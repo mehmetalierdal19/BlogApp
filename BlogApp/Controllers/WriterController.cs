@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.Controllers
 {
+    [AllowAnonymous]
     public class WriterController : Controller
     {
         public IActionResult Index()

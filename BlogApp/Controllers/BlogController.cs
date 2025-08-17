@@ -1,12 +1,15 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.Controllers
 {
+    [AllowAnonymous]
     public class BlogController : Controller
     {
         BlogManager bm = new BlogManager(new EFBlogRepository());
+
         public IActionResult Index()
         {
             var values = bm.TGetBlogsWithCategory();
