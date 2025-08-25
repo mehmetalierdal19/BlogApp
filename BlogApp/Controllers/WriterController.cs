@@ -5,7 +5,10 @@ using EntityLayer.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BlogApp.Controllers
 {
@@ -13,6 +16,7 @@ namespace BlogApp.Controllers
     public class WriterController : Controller
     {
         BlogManager bm = new BlogManager(new EFBlogRepository());
+        CategoryManager cm = new CategoryManager(new EFCategoryRepository());
         public IActionResult Index()
         {
             return View();
@@ -27,15 +31,23 @@ namespace BlogApp.Controllers
         }
         public IActionResult MyBlogs()
         {
-            var values = bm.TGetBlogListByWriter(1);
+            var values = bm.TGetBlogsWithCategoryByWriter(1);
             return View(values);
         }
 
         [HttpGet]
         public IActionResult NewBlog()
         {
+            List<SelectListItem> categoryvalues = (from x in cm.TGetAll()
+                                               select new SelectListItem
+                                               {
+                                                   Text = x.Name,
+                                                   Value = x.CategoryID.ToString()
+                                               }).ToList();
+            ViewBag.cv = categoryvalues;
             return View();
         }
+
         [HttpPost]
         public IActionResult NewBlog(Blog blog)
         {
@@ -58,6 +70,39 @@ namespace BlogApp.Controllers
                 return RedirectToAction("MyBlogs");
             }
             
+        }
+        public IActionResult DeleteBlog(int id)
+        {
+            var blogvalue = bm.TGetById(id);
+            blogvalue.Status = false;
+            bm.TUpdate(blogvalue);
+            return RedirectToAction("MyBlogs");
+        }
+
+        [HttpGet]
+        public IActionResult EditBlog(int id)
+        {
+            List<SelectListItem> categoryvalues = (from x in cm.TGetAll()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.Name,
+                                                       Value = x.CategoryID.ToString()
+                                                   }).ToList();
+            ViewBag.cv = categoryvalues;
+            var blogvalue = bm.TGetById(id);
+            ViewBag.date = blogvalue.CreateDate;
+            return View(blogvalue);
+        }
+
+        [HttpPost]
+        public IActionResult EditBlog(Blog p)
+        {
+            var existingBlog = bm.TGetById(p.BlogID);
+            p.CreateDate = existingBlog.CreateDate;
+            p.WriterID = existingBlog.WriterID;
+            p.Status = existingBlog.Status;
+            bm.TUpdate(p);
+            return RedirectToAction("MyBlogs");
         }
     }
 

@@ -26,10 +26,10 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.BlogID</td>
+                            <th>@item.BlogID</th>
                             <td>@item.Title</td>
                             <td>@item.CreateDate.Day.@item.CreateDate.Month.@item.CreateDate.Year</td>
-                            <td>@item.CategoryID</td>
+                            <td>@item.Category.Name</td>
                             <td>
                                 @if (item.Status)
                                 {
@@ -41,10 +41,14 @@
                                 }
                             </td>
                             <td>
-                                <a class="btn btn-danger btn-sm">Delete</a>
+                                <a href="#" class="btn btn-danger btn-sm delete-button" data-id="@item.BlogID">
+                                    <i class="mdi mdi-delete-variant"></i> Delete
+                                </a>
                             </td>
                             <td>
-                                <a class="btn btn-warning btn-sm">Update</a>
+                                <a href="/Writer/EditBlog/@item.BlogID" class="btn btn-warning btn-sm">
+                                    <i class="mdi mdi-autorenew"></i> Update
+                                </a>
                             </td>
                         </tr>
                     }
@@ -53,3 +57,32 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-button');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const blogId = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You are about to delete this blog post!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `/Writer/DeleteBlog/${blogId}`;
+                    }
+                });
+            });
+        });
+    });
+</script>
