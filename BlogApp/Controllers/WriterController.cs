@@ -17,7 +17,7 @@ namespace BlogApp.Controllers
     {
         BlogManager bm = new BlogManager(new EFBlogRepository());
         CategoryManager cm = new CategoryManager(new EFCategoryRepository());
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }

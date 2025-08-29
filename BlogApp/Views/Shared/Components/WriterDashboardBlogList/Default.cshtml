@@ -1,0 +1,52 @@
+﻿@using EntityLayer.Concrete
+@model List<Blog>
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Last 5 Blogs</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Title </th>
+                                <th> Status </th>
+                                <th> Category </th>
+                                <th> Create Date </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="/writer/assets/images/faces/face1.jpg" class="mr-2" alt="image">
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @if (item.Status)
+                                        {
+                                            <span class="badge badge-gradient-success">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-gradient-danger">Passive</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <label class="badge badge-gradient-success">@item.Category.Name</label>
+                                    </td>
+                                    <td> @item.CreateDate.Day.@item.CreateDate.Month.@item.CreateDate.Year </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

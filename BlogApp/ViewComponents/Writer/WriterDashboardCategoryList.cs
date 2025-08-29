@@ -2,14 +2,14 @@
 using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlogApp.ViewComponents.Blog
+namespace BlogApp.ViewComponents.Writer
 {
-    public class Last3Blogs : ViewComponent
+    public class WriterDashboardCategoryList : ViewComponent
     {
-        BlogManager bm = new BlogManager(new EFBlogRepository());
+        CategoryManager cm = new CategoryManager(new EFCategoryRepository());
         public IViewComponentResult Invoke()
         {
-            var values = bm.TGetLast3Blogs();
+            var values = cm.TGetAll();
             return View(values);
         }
     }
